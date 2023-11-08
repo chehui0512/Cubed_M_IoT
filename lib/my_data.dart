@@ -53,7 +53,8 @@ Widget textWidget(
               fontSize: 20,
               color: color,
               fontWeight: fontWeight ? FontWeight.bold : null),
-          textAlign: textAlign);
+          textAlign: textAlign,
+ );
     case TextType.sub:
       return Text(text,
           style: TextStyle(
