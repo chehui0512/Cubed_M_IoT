@@ -3,7 +3,7 @@ import 'package:e_fu/module/box_ui.dart';
 import 'package:e_fu/module/page.dart';
 import 'package:e_fu/my_data.dart';
 
-import 'package:e_fu/pages/profile/analysis.dart';
+
 
 import 'package:e_fu/request/user/account.dart';
 import 'package:e_fu/request/user/get_user_data.dart';
@@ -34,17 +34,6 @@ class ProfileCreateState extends State<ProfileInfo> {
   UserRepo userRepo = UserRepo();
   var logger = Logger();
 
-  getProfile() {
-    try {
-      userRepo.getUser(widget.userName).then((value) {
-        setState(() {
-          profile = GetUser.fromJson(value.D);
-        });
-      });
-    } catch (e) {
-      logger.v(e);
-    }
-  }
 
   @override
   void initState() {
