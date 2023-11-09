@@ -8,7 +8,7 @@ class MqttHandler with ChangeNotifier {
 
   Future<Object> connect() async {
     client = MqttServerClient.withPort(
-        'broker.MQTTGO.io', 'MQTTGO-4363666220', 1884);
+        'broker.MQTTGO.io', 'MQTTGO-5986130088', 1883);
     client.logging(on: true);
     client.onConnected = onConnected;
     client.onDisconnected = onDisconnected;
@@ -23,7 +23,8 @@ class MqttHandler with ChangeNotifier {
     client.setProtocolV311();
 
     final connMessage = MqttConnectMessage()
-        .withWillTopic('ntub/huii/#')
+        .withWillTopic('ntub/huii/123')
+        .withWillMessage('Will message')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
 
@@ -46,7 +47,7 @@ class MqttHandler with ChangeNotifier {
       return -1;
     }
 
-    print('MQTT_LOGS::Subscribing to the cubed/login topic');
+    print('MQTT_LOGS::Subscribing to the ntub/huii/# topic');
     const topic = 'ntub/huii/#';
     client.subscribe(topic, MqttQos.atMostOnce);
 
@@ -103,13 +104,13 @@ class MqttHandler with ChangeNotifier {
     print('MQTT_LOGS:: Ping response client callback invoked');
   }
 
-  void publishMessage(String message) {
-    const pubTopic = 'cubed/login';
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
+  // void publishMessage(String message) {
+  //   const pubTopic = 'cubed/login';
+  //   final builder = MqttClientPayloadBuilder();
+  //   builder.addString(message);
 
-    if (client.connectionStatus?.state == MqttConnectionState.connected) {
-      client.publishMessage(pubTopic, MqttQos.atMostOnce, builder.payload!);
-    }
-  }
+  //   if (client.connectionStatus?.state == MqttConnectionState.connected) {
+  //     client.publishMessage(pubTopic, MqttQos.atMostOnce, builder.payload!);
+  //   }
+  // }
 }

@@ -67,20 +67,28 @@ class HomePageState extends State<HomePage> {
       headHeight: MediaQuery.of(context).size.height * 0.12,
       body: ValueListenableBuilder<String>(
         builder: (BuildContext context, String value, Widget? child) {
-          return 
-          mqttHandler.data.value.isNotEmpty?Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              
-              textWidget(text: "等級" + mqttHandler.data.value.split(',')[1]),
-              textWidget(text: "次數" + mqttHandler.data.value.split(',')[2]),
-              // textWidget(text: exercise.user, type: TextType.fun),
-              // textWidget(
-              //     text: exercise.datetime.toIso8601String(),
-              //     type: TextType.fun),
-              // textWidget(text: exercise.score.toString(), type: TextType.fun)
-            ],
-          ):Container();
+          return mqttHandler.data.value.isNotEmpty
+              ? SizedBox(
+                  height: 100,
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(padding: EdgeInsets.all(10)),
+                      textWidget(
+                          text: "等級" + mqttHandler.data.value.split(',')[1],
+                          type: TextType.fun),
+                      const Padding(padding: EdgeInsets.all(10)),
+                      textWidget(
+                          text: "次數" + mqttHandler.data.value.split(',')[2],
+                          type: TextType.fun),
+                      // textWidget(text: exercise.user, type: TextType.fun),
+                      // textWidget(
+                      //     text: exercise.datetime.toIso8601String(),
+                      //     type: TextType.fun),
+                      // textWidget(text: exercise.score.toString(), type: TextType.fun)
+                    ],
+                  ),
+                )
+              : Container();
         },
         valueListenable: mqttHandler.data,
       ),
