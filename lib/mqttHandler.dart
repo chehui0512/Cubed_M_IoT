@@ -8,7 +8,7 @@ class MqttHandler with ChangeNotifier {
 
   Future<Object> connect() async {
     client = MqttServerClient.withPort(
-        'broker.MQTTGO.io', 'MQTTGO-4363666220', 1883);
+        'broker.MQTTGO.io', 'MQTTGO-4363666220', 1884);
     client.logging(on: true);
     client.onConnected = onConnected;
     client.onDisconnected = onDisconnected;
@@ -23,8 +23,7 @@ class MqttHandler with ChangeNotifier {
     client.setProtocolV311();
 
     final connMessage = MqttConnectMessage()
-        .withWillTopic('ntub/hui/123')
-        .withWillMessage('Will message')
+        .withWillTopic('ntub/huii/#')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
 
@@ -48,7 +47,7 @@ class MqttHandler with ChangeNotifier {
     }
 
     print('MQTT_LOGS::Subscribing to the cubed/login topic');
-    const topic = 'ntub/hui/123';
+    const topic = 'ntub/huii/#';
     client.subscribe(topic, MqttQos.atMostOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {

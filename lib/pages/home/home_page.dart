@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   String userName = "柯明朗";
-  
+
   MqttHandler mqttHandler = MqttHandler();
   Logger logger = Logger();
   String mqttResult = "";
@@ -62,22 +62,25 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return CustomPage(
-      title: "Cubed M",
+      title: "運動輔助",
       headTexttype: TextType.page,
       headHeight: MediaQuery.of(context).size.height * 0.12,
       body: ValueListenableBuilder<String>(
         builder: (BuildContext context, String value, Widget? child) {
-          return Column(
+          return 
+          mqttHandler.data.value.isNotEmpty?Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              textWidget(text: mqttHandler.data.value),
+              
+              textWidget(text: "等級" + mqttHandler.data.value.split(',')[1]),
+              textWidget(text: "次數" + mqttHandler.data.value.split(',')[2]),
               // textWidget(text: exercise.user, type: TextType.fun),
               // textWidget(
               //     text: exercise.datetime.toIso8601String(),
               //     type: TextType.fun),
               // textWidget(text: exercise.score.toString(), type: TextType.fun)
             ],
-          );
+          ):Container();
         },
         valueListenable: mqttHandler.data,
       ),
