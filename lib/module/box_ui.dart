@@ -1,10 +1,7 @@
 import 'package:e_fu/my_data.dart';
 
-import 'package:e_fu/pages/exercise/history.dart';
-import 'package:e_fu/pages/exercise/invite.dart';
-import 'package:e_fu/request/exercise/history_data.dart';
-import 'package:e_fu/request/invite/invite_data.dart';
-import 'package:e_fu/request/plan/plan_data.dart';
+
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -99,194 +96,9 @@ class Box {
     );
   }
 
-  static Widget inviteBox(Invite invite, BuildContext context) {
-    return Box.boxHasRadius(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(15),
-      height: 130,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () => Navigator.pushNamed(context, InvitePage.routeName,
-                  arguments: invite),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  textWidget(
-                      text: invite.name,
-                      type: TextType.sub,
-                      color: MyTheme.buttonColor,
-                      fontWeight: true),
-                  textWidget(
-                      text: invite.time
-                          .toString()
-                          .substring(0, 17)
-                          .replaceAll('T', ''),
-                      type: TextType.sub),
-                  textWidget(
-                      text: '召集人：${invite.m_id}',
-                      type: TextType.content,
-                      color: MyTheme.hintColor),
-                  textWidget(
-                      text: '共 ${invite.friend.length} 人',
-                      type: TextType.content,
-                      color: MyTheme.hintColor),
-                  textWidget(
-                      text: '備註：${invite.remark.isEmpty ? '無' : invite.remark}',
-                      type: TextType.content,
-                      color: MyTheme.hintColor)
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  
 
-  static Widget history(
-      History history, BuildContext context, String userName) {
-    Widget item, label;
-    if (history.isGroup()) {
-      item = Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.2,
-            child: textWidget(
-              text: '運動評分',
-              type: TextType.sub,
-            ),
-          ),
-          Row(
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  child: textWidget(text: '我', type: TextType.content)),
-              Box.textRadiusBorder(history.score.toString(),
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  filling: MyTheme.buttonColor,
-                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  child: textWidget(text: '平均', type: TextType.content)),
-              Box.textRadiusBorder(history.avgScore.toString(),
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  filling: MyTheme.color,
-                  margin: const EdgeInsets.fromLTRB(5, 0, 5, 0)),
-            ],
-          )
-        ],
-      );
-      label = Box.textRadiusBorder("團體",
-          color: HexColor("C6AC78"),
-          filling: Colors.white,
-          border: HexColor("C6AC78"),
-          width: 60);
-    } else {
-      item = Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.2,
-              child: textWidget(
-                text: '運動評分',
-                type: TextType.sub,
-              ),
-            ),
-            Box.textRadiusBorder(history.score.toString(),
-                margin: const EdgeInsets.only(top: 20), width: 60),
-          ],
-        ),
-      );
-
-      label = Box.textRadiusBorder('個人',
-          filling: Colors.white,
-          border: Colors.black45,
-          color: Colors.black45,
-          width: 60);
-    }
-
-    return Box.boxHasRadius(
-      height: 160,
-      padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Logger logger = Logger();
-          logger.v("this is push");
-          Navigator.pushNamed(context, HistoryDetailPage.routeName,
-              arguments: history);
-        },
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      label,
-                      history.isGroup()
-                          ? textWidget(
-                              text: history.name,
-                              type: TextType.sub,
-                              color: MyTheme.buttonColor,
-                              fontWeight: true)
-                          : Container()
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          textWidget(
-                              text: history.time.toString().substring(0, 10),
-                              type: TextType.sub),
-                          textWidget(
-                              text: history.time
-                                  .toString()
-                                  .substring(11, 16)
-                                  .replaceAll('T', ''),
-                              type: TextType.sub),
-                          textWidget(
-                              text: '召集人：${history.m_name}',
-                              type: TextType.content,
-                              color: MyTheme.hintColor),
-                          history.isGroup()
-                              ? textWidget(
-                                  text: '共 ${history.peopleCount()} 人',
-                                  type: TextType.content,
-                                  color: MyTheme.hintColor)
-                              : Container(),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(padding: const EdgeInsets.only(top: 15), child: item)
-          ],
-        ),
-      ),
-    );
-  }
+  
 
   static Widget inviteMember({String? type, String? name, Widget? accept}) {
     return Flex(
@@ -343,65 +155,7 @@ class Box {
     );
   }
 
-  //邀約運動資訊
-  static Widget inviteInfo(Invite invite, bool isHost) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(
-            height: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                textWidget(
-                    text: invite.name,
-                    type: TextType.fun,
-                    color: MyTheme.buttonColor,
-                    fontWeight: true),
-                textWidget(
-                    text: invite.time
-                        .toString()
-                        .substring(0, 17)
-                        .replaceAll("T", " "),
-                    type: TextType.sub),
-                textWidget(
-                    text: '備註：${invite.remark.isEmpty ? '無' : invite.remark}',
-                    type: TextType.content,
-                    color: MyTheme.hintColor)
-              ],
-            ),
-          ),
-          isHost
-              ? GestureDetector(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(5, 5, 10, 5),
-                    decoration: BoxDecoration(
-                        color: MyTheme.lightColor,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        textWidget(
-                            text: '邀請',
-                            type: TextType.content,
-                            color: Colors.white)
-                      ],
-                    ),
-                  ),
-                )
-              : Container()
-        ],
-      ),
-    );
-  }
+  
 
   static Widget boxWithX(String title, {Function()? function}) {
     return GestureDetector(
@@ -472,77 +226,9 @@ class Box {
     );
   }
 
-  // static Widget connectInfo(ConnectState connectState) {
-  //   return Box.boxHasRadius(
-  //     margin: const EdgeInsets.only(bottom: 10, top: 10),
-  //     padding: const EdgeInsets.only(bottom: 10, top: 10),
-  //     child: Row(
-  //       children: [
-  //         Expanded(
-  //             flex: 0,
-  //             child: Box.textRadiusBorder("",
-  //                 filling: connectState.state ? Colors.green : Colors.red,
-  //                 width: 25)),
-  //         Expanded(
-  //           flex: 2,
-  //           child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [Text(connectState.id), Text(connectState.name)]),
-  //         ),
-  //         Expanded(
-  //           flex: 1,
-  //           child: connectState.isHost == null
-  //               ? Box.textRadiusBorder(connectState.text(),
-  //                   filling: MyTheme.lightColor)
-  //               : Box.textRadiusBorder("主持人",
-  //                   filling: Colors.white, font: MyTheme.color),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+ 
 
-  static Widget planBox(Plan plan, BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: 150,
-      child: (Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(),
-              ),
-              Expanded(
-                  flex: 2,
-                  child: Text(
-                    plan.name,
-                    textAlign: TextAlign.center,
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        child: const Text("編輯"),
-                      ),
-                      GestureDetector(
-                        child: const Text("刪除"),
-                      )
-                    ],
-                  ))
-            ],
-          ),
-          Text(plan.getRange()),
-          Row(children: executeWeek()),
-          Row(children: planWeek(plan))
-        ],
-      )),
-    );
-  }
+  
 
   static List<Widget> executeWeek({bool? show}) {
     List<Widget> result = [];
@@ -570,58 +256,7 @@ class Box {
     return result;
   }
 
-  static List<Widget> planWeek(Plan plan, {List<bool>? exe}) {
-    List<Widget> result = [];
-    bool isHome = exe != null;
-    for (var check in plan.execute) {
-      Widget widget = const SizedBox(width: 30, height: 30);
-      if (isHome) {
-        if (DateTime.now().weekday > result.length) {
-          widget = Container(
-            padding: const EdgeInsets.all(5),
-            child: ClipOval(
-              child: Container(
-                height: 30,
-                color: exe[result.length] ? MyTheme.green : MyTheme.pink,
-                child: const Icon(
-                  Icons.done,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-        } else {
-          widget = Container(
-            padding: const EdgeInsets.all(5),
-            child: ClipOval(
-              child: Container(
-                height: 30,
-                color: MyTheme.gray,
-                child: const Icon(
-                  Icons.done,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-          // widget = Box.boxHasRadius(
-          //     child: Icon(
-          //       Icons.check_circle,
-          //       color: Colors.grey,
-          //     ),
-          //     height: 30);
-        }
-      }
-      // result.add(
-      //    check ? widget : Container(),
-      // );
-      result.add(Expanded(
-        flex: 1,
-        child: check ? widget : Container(),
-      ));
-    }
-    return result;
-  }
+  
 
   //設立組數的輸入框
   static Widget setsBox(String title, TextEditingController controller) {

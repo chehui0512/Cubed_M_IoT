@@ -1,6 +1,6 @@
-import 'package:e_fu/pages/exercise/exercise.dart';
+
 import 'package:e_fu/pages/home/home_page.dart';
-import 'package:e_fu/pages/mo/mo.dart';
+
 import 'package:e_fu/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -75,13 +75,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 //   return;
                 // }
                 setState(() {
-                  tabBody =  Mo(userName: widget.userName,);
+                  tabBody = ProfileInfo(
+                    userName: widget.userName,
+                  );
                 });
               } else if (index == 2) {
                 setState(() {
-                  tabBody = ExerciseHome(
-                    userName: widget.userName,
-                  );
+                 
                 });
               } else if (index == 3) {
                 setState(() {

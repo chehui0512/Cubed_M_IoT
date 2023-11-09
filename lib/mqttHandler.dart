@@ -23,7 +23,7 @@ class MqttHandler with ChangeNotifier {
     client.setProtocolV311();
 
     final connMessage = MqttConnectMessage()
-        .withWillTopic('willtopic')
+        .withWillTopic('ntub/hui/123')
         .withWillMessage('Will message')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
@@ -48,7 +48,7 @@ class MqttHandler with ChangeNotifier {
     }
 
     print('MQTT_LOGS::Subscribing to the cubed/login topic');
-    const topic = 'cubed/detail';
+    const topic = 'ntub/hui/123';
     client.subscribe(topic, MqttQos.atMostOnce);
 
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {

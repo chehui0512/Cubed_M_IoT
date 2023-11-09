@@ -1,0 +1,5 @@
+主題：運動輔助
+
+在3 main.py的檔案中，利用ESP32板完成藍芽連接，在按下按鈕後，發出提示聲音，發送開始訊號給seeed studio xiao nrf52840 sense，接著讀取nrf52840 sense開發板所偵測的運動數據，傳送到mqtt.go上
+
+整合Flutter開發App，利用mqtt_client讀取mqtt.go上的資料並顯示
